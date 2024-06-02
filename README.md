@@ -29,4 +29,4 @@ This project is licensed under the MIT-Licence. ©️
 
 ## Video
 
-https://github.com/RathodAnsh/FaceVote-Precision./assets/145257597/412fd1a7-05be-4227-a5e2-96d7358a087f
+

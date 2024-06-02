@@ -1,0 +1,131 @@
+'''import tkinter as tk
+from tkinter import filedialog, messagebox
+import mysql.connector
+from PIL import Image, ImageTk
+import io
+
+# Function to upload image and information to database
+# Function to upload image to database
+def upload_image():
+    id = entry_id.get()
+
+    # Open file dialog to select image
+    file_path = filedialog.askopenfilename()
+    if file_path:
+        try:
+            with open(file_path, 'rb') as file:
+                image_data = file.read()
+                update_query=("UPDATE register_detail SET Image = %s WHERE Voterid=%s")
+                cursor.execute(update_query,(image_data,))
+                conn.commit()  # Commit changes to the database
+                messagebox.showinfo("Success", "Image uploaded successfully!")
+        except Exception as e:
+            messagebox.showerror("Error", f"Error uploading image: {e}")
+    else:
+        messagebox.showerror("Error", "Please select an image!")
+
+# Connect to MySQL database
+try:
+    conn = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="123456",
+        database="voter"
+    )
+    cursor = conn.cursor()
+except mysql.connector.Error as err:
+    messagebox.showerror("Error", f"Error connecting to MySQL: {err}")
+    exit()
+
+
+# Create Tkinter window
+root = tk.Tk()
+root.title("Image Uploader")
+
+# Create widgets
+label_name = tk.Label(root, text="Name:")
+label_name.grid(row=0, column=0, padx=10, pady=5, sticky="e")
+entry_id = tk.Entry(root)
+entry_id.grid(row=0, column=1, padx=10, pady=5)
+
+
+button_upload = tk.Button(root, text="Upload Data", command=upload_image)
+button_upload.grid(row=2, column=0, columnspan=2, padx=10, pady=5, sticky="we")
+
+
+
+
+
+root.mainloop()'''
+
+from tkinter import *
+from tkinter import Tk, filedialog, messagebox
+import mysql.connector
+import io
+from PIL import Image, ImageTk
+
+def upload_image():
+    # Fetch the voter ID and image path from the entry fields
+    voter_id = voter_id_entry.get()
+    image_path = image_path_entry.get()
+
+    try:
+        # Read image data
+        with open(image_path, 'rb') as file:
+            image_data = file.read()
+
+        # Connect to the database
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Ansh@7514",
+            database="voter"
+        )
+
+        # Execute the update query
+        cursor = connection.cursor()
+        update_query = "UPDATE register_detail SET image = %s WHERE Voterid = %s"
+        cursor.execute(update_query, (image_data, voter_id))
+
+        # Commit the transaction
+        connection.commit()
+        messagebox.showinfo("Success", "Image uploaded successfully.")
+
+    except mysql.connector.Error as error:
+        messagebox.showerror("Error", f"Failed to upload image: {error}")
+
+    finally:
+        # Close the database connection
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+root = Tk()
+root.geometry("400x300")
+
+# Voter ID Entry
+voter_id_label = Label(root, text="Voter ID:")
+voter_id_label.grid(row=0, column=0)
+voter_id_entry = Entry(root)
+voter_id_entry.grid(row=0, column=1)
+
+# Image Path Entry
+image_path_label = Label(root, text="Image Path:")
+image_path_label.grid(row=1, column=0)
+image_path_entry = Entry(root)
+image_path_entry.grid(row=1, column=1)
+
+# Browse Button for Image Path
+def browse_image():
+    filename = filedialog.askopenfilename()
+    image_path_entry.delete(0, END)
+    image_path_entry.insert(0, filename)
+
+browse_button = Button(root, text="Browse", command=browse_image)
+browse_button.grid(row=1, column=2)
+
+# Upload Button
+upload_button = Button(root, text="Upload Image", command=upload_image)
+upload_button.grid(row=2, column=1)
+
+root.mainloop()

@@ -24,6 +24,13 @@ FaceVote Precision (FVP) is an online voting system designed to make elections e
 - Image-Based Identification 🖼️: Utilizes face recognition for voter authentication.
 - Real-Time Identification 🕰️: Provides quick and accurate voter verification.
 
+## Research Papers ![image](https://github.com/user-attachments/assets/dc4b50d5-3c6a-45e6-a3b1-7149d860d6df)
+
+
+
+
+
+
 ## License 📄
 This project is licensed under the MIT-Licence. ©️
 
